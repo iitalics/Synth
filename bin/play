@@ -1,2 +1,2 @@
 #!/bin/bash
-bin/play | aplay -f 'cd'
+bin/synth | aplay -f 'cd'
