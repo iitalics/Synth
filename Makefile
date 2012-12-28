@@ -33,11 +33,14 @@ $(OBJ)/PartSetting.o: PartSetting.cpp
 $(OBJ)/SynthManager.o: SynthManager.cpp
 	$(CXX) SynthManager.cpp $(ALLFLAGS) -c -o $(OBJ)/SynthManager.o
 
+$(OBJ)/SynthReader.o: SynthReader.cpp
+	$(CXX) SynthReader.cpp $(ALLFLAGS) -c -o $(OBJ)/SynthReader.o
+
 $(OBJ)/Wire.o: Wire.cpp
 	$(CXX) Wire.cpp $(ALLFLAGS) -c -o $(OBJ)/Wire.o
 
-$(OUTPUT): $(OBJ)/APlay.o $(OBJ)/LFOPart.o $(OBJ)/main.o $(OBJ)/OscPart.o $(OBJ)/Part.o $(OBJ)/PartSetting.o $(OBJ)/SynthManager.o $(OBJ)/Wire.o
-	$(LINKER) $(ALLFLAGS) $(OBJ)/APlay.o $(OBJ)/LFOPart.o $(OBJ)/main.o $(OBJ)/OscPart.o $(OBJ)/Part.o $(OBJ)/PartSetting.o $(OBJ)/SynthManager.o $(OBJ)/Wire.o -o $(OUTPUT)
+$(OUTPUT): $(OBJ)/APlay.o $(OBJ)/LFOPart.o $(OBJ)/main.o $(OBJ)/OscPart.o $(OBJ)/Part.o $(OBJ)/PartSetting.o $(OBJ)/SynthManager.o $(OBJ)/SynthReader.o $(OBJ)/Wire.o
+	$(LINKER) $(ALLFLAGS) $(OBJ)/APlay.o $(OBJ)/LFOPart.o $(OBJ)/main.o $(OBJ)/OscPart.o $(OBJ)/Part.o $(OBJ)/PartSetting.o $(OBJ)/SynthManager.o $(OBJ)/SynthReader.o $(OBJ)/Wire.o -o $(OUTPUT)
 
 clean: 
 	rm -f $(OBJ)/*
