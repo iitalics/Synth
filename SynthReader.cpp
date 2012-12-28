@@ -5,6 +5,7 @@
 #include "OscPart.h"
 #include "LFOPart.h"
 #include "SynthManager.h"
+#include "Wire.h"
 
 
 
@@ -12,6 +13,7 @@
 #define CREATE_SEQ "=>"
 #define ATTR_SEQ ":"
 #define WIRE_SEQ "->"
+#define ATTR_SEP '.'
 
 
 
@@ -94,6 +96,11 @@ static inline void beforeAfter (std::string& a, std::string& b, std::string seq,
 	a = strip(seq.substr(0, seq.find(f)));
 	b = strip(seq.substr(seq.find(f) + f.size()));
 }
+static inline void beforeAfter (std::string& a, std::string& b, std::string seq, char f)
+{
+	a = strip(seq.substr(0, seq.find(f)));
+	b = strip(seq.substr(seq.find(f) + 1));
+}
 
 void SynthReader::processLine (std::string line)
 {
@@ -147,7 +154,36 @@ void SynthReader::processLine (std::string line)
 	}
 	else if (line.find(WIRE_SEQ) != std::string::npos)
 	{
+		std::string wire1, wire2, part1name, part2name, part1attr, part2attr;
+		Part* part1; Part* part2;
 		
+		beforeAfter(wire1, wire2, line, WIRE_SEQ);
+		
+		if (wire1.find(ATTR_SEP) == std::string::npos ||
+		    wire2.find(ATTR_SEP) == std::string::npos)
+		{
+			// sound routing
+			die("Sound routing not implemented yet");
+			return;
+		}
+		beforeAfter(part1name, part1attr, wire1, ATTR_SEP);
+		beforeAfter(part2name, part2attr, wire2, ATTR_SEP);
+		
+		part1 = target->GetPart(part1name);
+		part2 = target->GetPart(part2name);
+		
+		if (part1 == NULL)
+		{
+			die("Invalid part '" + part1name + "'");
+		}
+		else if (part2 == NULL)
+		{
+			die("Invalid part '" + part2name + "'");
+		}
+		else
+		{
+			Wire(part1, part1attr, part2, part2attr);
+		}
 	}
 }
 
