@@ -1,9 +1,27 @@
+WIP
 -
 -
 - Synthesizer-language thing for command line 'aplay' tool
 - Written in C++
 -
 -
+
+
+
+Run 'source bin/play' (in the code folder) to run correctly
+
+
+
+
+
+# TODO #
+- Finish SynthReader
+- More waveforms
+- Sound routing
+- Effects (delay, S&H)
+- Keys
+- Filers (yikes!)
+
 
 
 

@@ -1,2 +1,2 @@
 #!/bin/bash
-/home/milo/Projects/synth/bin/synth | aplay -f 'cd'
+bin/play | aplay -f 'cd'
