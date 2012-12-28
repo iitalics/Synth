@@ -1,0 +1,75 @@
+#!/usr/bin/python
+
+import os, sys
+
+
+settings = {
+	"compiler" : "clang",
+	"linker"   : "g++",
+	"options"  : "-Wall",
+	"output"   : "bin/synth",
+	"backup"   : "synth.tar.bz2",
+}
+
+mode = -1
+if len(sys.argv) > 1:
+	mode = sys.argv[1]
+
+def backup ():
+	os.system("make clean;echo rm -f %s *~;rm -f %s *~;tar -cj `ls -B` -f %s" %
+		(settings["backup"], settings["backup"], settings["backup"]))
+	print "\x1b[31mBacked up in \x1b[1m%s\x1b[0m" % (settings["backup"])
+
+if mode == "b":
+	backup();
+	sys.exit(0)
+
+result = """
+CXX=%s
+LINKER=%s
+CFLAGS=%s
+OBJ=obj
+
+INCLUDE=
+LIBPATH=
+
+OUTPUT=%s
+""" % (settings["compiler"], settings["linker"], settings["options"], settings["output"])
+
+
+objects = []
+
+result += "\nALLFLAGS=$(CFLAGS) $(INCLUDE) $(LIBPATH)\n#----------"
+
+result += "\nall: $(OUTPUT)"
+i = 0
+for f in map(lambda x: x.strip(), os.popen("ls -m *.cpp").read().split(",")):
+	name = f.split(".cpp")[0]
+	obj = "$(OBJ)/%s.o" % name
+	
+	result += "\n%s: %s" % (obj, f)
+	result += "\n\t$(CXX) %s $(ALLFLAGS) -c -o %s" % (f, obj)
+	result += "\n"
+	
+	i = (i + 1) % 6
+	
+	objects += [obj]
+
+numObjects = len(objects)
+objects = " ".join(objects)
+result += "\n$(OUTPUT): %s" % objects
+result += "\n\t$(LINKER) $(ALLFLAGS) %s -o $(OUTPUT)\n" % objects
+
+result += "\nclean: "
+result += "\n\trm -f $(OBJ)/*\n\trm -f $(OUTPUT)"
+
+result += "\n\n"
+
+file("Makefile", "w").write(result)
+
+print "\x1b[32m Generated makefile for \x1b[1m%d\x1b[0;32m source files\x1b[0m" % numObjects
+print "\x1b[34m#\x1b[0m  Compiler: \x1b[33;1m%s\x1b[0m" % settings["compiler"]
+print "\x1b[36m#\x1b[0m  Linker:   \x1b[33;1m%s\x1b[0m" % settings["linker"]
+print "\x1b[34m#\x1b[0m  Output:   \x1b[33;1m%s\x1b[0m" % settings["output"]
+
+if mode != "j": backup()
