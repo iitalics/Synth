@@ -8,7 +8,9 @@ enum OscWaveform
 	WaveformSine   = 1,
 	WaveformSaw    = 2,
 	WaveformSquare = 3,
-	WaveformNoise  = 4
+	WaveformNoise  = 4,
+	
+	WaveformInvalid = 0
 };
 
 

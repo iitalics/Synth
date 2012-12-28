@@ -1,8 +1,13 @@
 #pragma once
 
 #include <fstream>
+#include <sstream>
 
-			class SynthManager;
+
+
+class SynthManager;
+class Part;
+
 
 
 
@@ -13,14 +18,20 @@ public:
 	SynthReader (std::string data);
 	~SynthReader ();
 	
-	void Load (SynthManager* target);
+	bool Load (SynthManager* target);
+	std::string GetError ();
 private:
-	bool usingStreamstream;
+	bool errored;
+	std::string errorMessage;
 	
-	std::istream* stream;
+	void die (std::string x);
 	
-	std::string readLine();
+	void init ();
+	bool inuse;
+	void processLine(std::string line);
+	std::stringstream ss;
 	
 	
 	SynthManager* target;
+	Part* currentPart;
 };

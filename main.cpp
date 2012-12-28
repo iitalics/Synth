@@ -18,26 +18,10 @@ int main (int argc, char** args)
 	
 	
 	
-	while (!ss.eof())
-	{
-		std::string line;
-		std::getline(ss, line);
-		std::cerr << "[" << line << "]" << std::endl;
-	}
-	
-	
 	SynthManager* synth = new SynthManager();
 	
-	OscPart* osc = new OscPart(WaveformSaw);
-	LFOPart* lfo = new LFOPart(WaveformSine, 2);
 	
-	osc->SetBase("Freq", 440);
-	osc->SetBase("Amp", 0.4f);
 	
-	Wire(lfo, "Output", osc, "Pan", 0.5f);
-	
-	synth->AddPart(osc);
-	synth->AddPart(lfo);
 	
 	
 	float left, right;

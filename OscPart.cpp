@@ -29,6 +29,8 @@ float GENERATE_WAVE (OscWaveform wave, float phase)
 			return GENERATE_SQUARE(phase);
 		case WaveformNoise:
 			return GENERATE_NOISE(phase);
+		default:
+			return 0;
 	}
 	return 0;
 }
