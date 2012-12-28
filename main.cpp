@@ -4,6 +4,7 @@
 #include "OscPart.h"
 #include "LFOPart.h"
 #include "Wire.h"
+#include <sstream>
 #include <cmath>
 
 
@@ -14,6 +15,15 @@
 int main (int argc, char** args)
 {
 	fprintf(stderr, "\x1b[1m- started -\x1b[0m\n");
+	
+	
+	
+	while (!ss.eof())
+	{
+		std::string line;
+		std::getline(ss, line);
+		std::cerr << "[" << line << "]" << std::endl;
+	}
 	
 	
 	SynthManager* synth = new SynthManager();

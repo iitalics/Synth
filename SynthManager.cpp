@@ -24,6 +24,13 @@ void SynthManager::AddPart (Part* part)
 	part->Manager = this;
 	parts.push_back(part);
 }
+Part* SynthManager::GetPart (std::string name)
+{
+	for (std::vector<Part*>::iterator i = parts.begin(); i != parts.end(); i++)
+		if ((*i)->Name == name)
+			return *i;
+	return NULL;
+}
 
 void SynthManager::GetOutput (float* left, float* right)
 {

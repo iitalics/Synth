@@ -12,6 +12,7 @@ public:
 	
 	void AddPart (Part* part);
 	void GetOutput (float* left, float* right);
+	Part* GetPart (std::string name);
 	
 	float Time;
 protected:
