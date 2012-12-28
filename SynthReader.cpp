@@ -18,7 +18,7 @@
 
 
 
-static inline std::string strip (std::string s)
+static std::string strip (std::string s)
 {
 	if (s.size() == 0) return s;
 	int i = 0; int len = s.size();
@@ -45,6 +45,11 @@ SynthReader::SynthReader (std::string data) : ss(data)
 	init();
 }
 
+SynthReader::~SynthReader ()
+{
+}
+
+
 void SynthReader::init ()
 {
 	inuse = true;
@@ -52,12 +57,12 @@ void SynthReader::init ()
 	target = NULL;
 }
 
-bool SynthReader::Load (SynthManager* _target)
+LoadStatus SynthReader::Load (SynthManager* _target)
 {
 	if (!inuse)
 	{
 		die("No data to load");
-		return false;
+		return LoadErrored;
 	}
 	
 	target = _target;
@@ -75,7 +80,9 @@ bool SynthReader::Load (SynthManager* _target)
 	}
 	inuse = false;
 	
-	return errored;
+	fprintf(stderr, "\x1b[32;1mfinished creating\x1b[0m\n");
+	
+	return errored ? LoadErrored : LoadSuccess;
 }
 std::string SynthReader::GetError ()
 {
@@ -104,6 +111,7 @@ static inline void beforeAfter (std::string& a, std::string& b, std::string seq,
 
 void SynthReader::processLine (std::string line)
 {
+	fprintf(stderr, "\x1b[34mprocess line (%s)\x1b[0m\n", line.c_str());
 	if (line.find(CREATE_SEQ) != std::string::npos)
 	{
 		std::string name, type;
@@ -115,15 +123,20 @@ void SynthReader::processLine (std::string line)
 			return;
 		}
 		
+		
 		Part* p = CreatePart(type);
+		fprintf(stderr, "creating (%p) (%p)\n", target, p);
+		
 		if (p == NULL)
 		{
 			die("Invalid part type '" + type + "'");
 			return;
 		}
+		
 		p->Name = name;
 		target->AddPart(p);
 		currentPart = p;
+		
 	}
 	else if (line.find(ATTR_SEQ) != std::string::npos)
 	{
@@ -188,7 +201,7 @@ void SynthReader::processLine (std::string line)
 }
 
 
-static inline OscWaveform getWave (std::string s)
+static OscWaveform getWave (std::string s)
 {
 	if (s == "sine")   return WaveformSine;
 	if (s == "saw")    return WaveformSaw;

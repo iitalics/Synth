@@ -4,6 +4,7 @@
 #include "OscPart.h"
 #include "LFOPart.h"
 #include "Wire.h"
+#include "SynthReader.h"
 #include <sstream>
 #include <cmath>
 
@@ -20,7 +21,16 @@ int main (int argc, char** args)
 	
 	SynthManager* synth = new SynthManager();
 	
+	SynthReader reader("\
+MainOsc => Osc.sine\n\
+ Amp: 0.5\
+");
 	
+	if (reader.Load(synth) == LoadErrored)
+	{
+		fprintf(stderr, "\x1b[31mError while loading: \x1b[1m%s\x1b[0m\n", reader.GetError().c_str());
+		return EXIT_FAILURE;
+	}
 	
 	
 	

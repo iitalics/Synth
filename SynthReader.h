@@ -5,10 +5,14 @@
 
 
 
+enum LoadStatus
+{
+	LoadErrored = 0,
+	LoadSuccess = 1
+};
+
 class SynthManager;
 class Part;
-
-
 
 
 class SynthReader
@@ -18,7 +22,7 @@ public:
 	SynthReader (std::string data);
 	~SynthReader ();
 	
-	bool Load (SynthManager* target);
+	LoadStatus Load (SynthManager* target);
 	std::string GetError ();
 private:
 	bool errored;

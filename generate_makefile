@@ -4,7 +4,7 @@ import os, sys
 
 
 settings = {
-	"compiler" : "clang",
+	"compiler" : "g++",
 	"linker"   : "g++",
 	"options"  : "-Wall",
 	"output"   : "bin/synth",

@@ -1,5 +1,5 @@
 
-CXX=clang
+CXX=g++
 LINKER=g++
 CFLAGS=-Wall
 OBJ=obj
