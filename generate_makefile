@@ -62,6 +62,7 @@ result += "\n\t$(LINKER) $(ALLFLAGS) %s -o $(OUTPUT)\n" % objects
 
 result += "\nclean: "
 result += "\n\trm -f $(OBJ)/*\n\trm -f $(OUTPUT)"
+result += "\nrebuild: clean all"
 
 result += "\n\n"
 

@@ -45,4 +45,5 @@ $(OUTPUT): $(OBJ)/APlay.o $(OBJ)/LFOPart.o $(OBJ)/main.o $(OBJ)/OscPart.o $(OBJ)
 clean: 
 	rm -f $(OBJ)/*
 	rm -f $(OUTPUT)
+rebuild: clean all
 
