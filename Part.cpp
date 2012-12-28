@@ -11,9 +11,12 @@ Part::Part ()
 }
 Part::~Part ()
 {
-	for (int i = 0; i < numSettings; i++)
-		settings[i].Dispose();
-	delete[] settings;
+	if (settings != NULL)
+	{
+		for (int i = 0; i < numSettings; i++)
+			settings[i].Dispose();
+		delete[] settings;
+	}
 }
 PartSetting* Part::GetSetting (std::string name)
 {

@@ -54,7 +54,8 @@ bool SynthReader::Load (SynthManager* _target)
 {
 	if (!inuse)
 	{
-		// error
+		die("No data to load");
+		return false;
 	}
 	
 	target = _target;
@@ -164,13 +165,13 @@ static Part* CreatePart (std::string type)
 	if (type.substr(0, 4) == "LFO.")
 	{
 		OscWaveform wave = getWave(type.substr(4));
-		if (wave < 0) return NULL;
+		if (wave == WaveformInvalid) return NULL;
 		return new LFOPart(wave);
 	}
 	else if (type.substr(0, 4) == "Osc.")
 	{
 		OscWaveform wave = getWave(type.substr(4));
-		if (wave < 0) return NULL;
+		if (wave == WaveformInvalid) return NULL;
 		return new OscPart(wave);
 	}
 	
